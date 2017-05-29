@@ -1,0 +1,101 @@
+@extends('layouts.app')
+@section('content')
+
+<h2>選手詳細</h2>
+
+<!--投手詳細-->
+@if($pozitionFlg == 1)
+<table class='table table-striped'>
+    <tr>
+        <th>登録選手名</th>
+        <td>{{$playerInfo->name}}</td>
+    </tr>
+    <tr>
+        <th>背番号</th>
+        <td>{{$playerInfo->number}}</td>
+    </tr>
+    <tr>
+        <th>所属チーム</th>
+        <td>{{$playerInfo->club}}</td>
+    </tr>
+    <tr>
+        <th>守備位置</th>
+        <td>{{$playerInfo->position}}</td>
+    </tr>
+    <tr>
+        <th>弾道</th>
+        <td>{{$detail->dandou}}</td>
+    </tr>
+    <tr>
+        <th>ミート</th>
+        <td>{{$detail->meet}}</td>
+    </tr>
+    <tr>
+        <th>パワー</th>
+        <td>{{$detail->power}}</td>
+    </tr>
+    <tr>
+        <th>走力</th>
+        <td>{{$detail->run}}</td>
+    </tr>
+    <tr>
+        <th>肩力</th>
+        <td>{{$detail->shoulder}}</td>
+    </tr>
+    <tr>
+        <th>守備力</th>
+        <td>{{$detail->defense}}</td>
+    </tr>
+    <tr>
+        <th>捕球</th>
+        <td>{{$detail->catch}}</td>
+    </tr>
+    <tr>
+        <th>特殊能力</th>
+        <td>{{$detail->special_ability}}</td>
+    </tr>
+</table>
+
+<!--野手詳細-->
+@else
+<table class='table table-striped'>
+    <tr>
+        <th>登録選手名</th>
+        <td>{{$playerInfo->name}}</td>
+    </tr>
+    <tr>
+        <th>背番号</th>
+        <td>{{$playerInfo->number}}</td>
+    </tr>
+    <tr>
+        <th>所属チーム</th>
+        <td>{{$playerInfo->club}}</td>
+    </tr>
+    <tr>
+        <th>守備位置</th>
+        <td>{{$playerInfo->position}}</td>
+    </tr>
+    <tr>
+        <th>球速</th>
+        <td>{{$detail->speed}}</td>
+    </tr>
+    <tr>
+        <th>コントロール</th>
+        <td>{{$detail->control}}</td>
+    </tr>
+    <tr>
+        <th>スタミナ</th>
+        <td>{{$detail->stamina}}</td>
+    </tr>
+    <tr>
+        <th>変化球</th>
+        <td>{{$detail->breaking_ball}}</td>
+    </tr>
+    <tr>
+        <th>特殊能力</th>
+        <td>{{$detail->special_ability}}</td>
+    </tr>
+</table>
+@endif
+
+@endsection
