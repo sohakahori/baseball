@@ -6,3 +6,11 @@ function deleteList(id)
         location.href = 'http://localhost/baseball/public/admin/delete/' + id; //変更の必要あり
     }
 }
+
+//CSV出力
+function getCSV()
+{
+    var formUrl = '/baseball/public/admin/csv'
+    document.getElementById("output_form").action = formUrl;
+    document.getElementById("output_form").submit();  
+}

@@ -9,7 +9,7 @@
 </center>
 @endif
 
-<form class='form-horizontal' method="GET" action="{{url('/admin/list')}}" enctype="multipart/form-data">
+<form class='form-horizontal' id="output_form" method="GET" action="{{url('/admin/list')}}" enctype="multipart/form-data">
     <input type="hidden" name="_token" value="{{csrf_token()}}">
     
     <!--エラーメッセージ-->
@@ -103,6 +103,8 @@
     @endif
     <!--ボタン-->
     <button class="btn btn-lg btn-primary btn-block" type="submit">検索</button>
+    <br>
+    <button class="btn btn-lg btn-primary btn-block" onclick="getCSV()" type="submit">CSV出力</button>
 </form>
 
 <!--一覧表示-->

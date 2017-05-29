@@ -306,4 +306,37 @@ class AdminBaseballController extends Controller
         
         return redirect()->to('admin/search');
     }
+    
+    //csv出力
+    public function getCsv(SearchRequest $request)
+    {
+        $query = Player::query();
+        
+        if(!empty($request->name)){
+            $query->where('name', '=', $request->name);
+        }
+        if(!empty($request->number)){
+            $query->where('number', '=', $request->number);
+        }
+        if(!empty($club)){
+            $query->where('club', '=', $request->club);
+        }
+        $playerInfo = $query->get(['name', 'number', 'club', 'position'])->toArray();
+        
+        $csvHeader = ['登録選手名', '背番号', '所属チーム', 'ポジション'];
+
+        array_unshift($playerInfo, $csvHeader);
+        $stream = fopen('php://temp', 'r+b');
+        foreach($playerInfo as $value){
+            fputcsv($stream, $value);
+        }
+        rewind($stream);
+        $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+        $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="users.csv"',
+        );
+        return \Response::make($csv, 200, $headers);
+    }
 }
