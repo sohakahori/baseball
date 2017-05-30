@@ -337,6 +337,7 @@ class AdminBaseballController extends Controller
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="users.csv"',
         );
+        
         return \Response::make($csv, 200, $headers);
     }
 }
