@@ -102,9 +102,9 @@
     </div>
     @endif
     <!--ボタン-->
-    <button class="btn btn-lg btn-primary btn-block" type="submit">検索</button>
+    <button class="btn btn-lg btn-primary btn-block" onclick="getCSV(this)" id="search">検索</button>
     <br>
-    <button class="btn btn-lg btn-primary btn-block" onclick="getCSV()" type="submit">CSV出力</button>
+    <button class="btn btn-lg btn-primary btn-block" onclick="getCSV(this)" type="submit" id="csv">CSV出力</button>
 </form>
 
 <!--一覧表示-->

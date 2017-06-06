@@ -8,9 +8,15 @@ function deleteList(id)
 }
 
 //CSV出力
-function getCSV()
+function getCSV(obj)
 {
-    var formUrl = '/baseball/public/admin/csv'
-    document.getElementById("output_form").action = formUrl;
-    document.getElementById("output_form").submit();  
+    
+    var id = obj.id;
+    if(id == 'search'){
+        document.getElementById("output_form").action = '/baseball/public/admin/list';
+    }else{
+        document.getElementById("output_form").action = '/baseball/public/admin/outputcsv';
+    }
+    
+    document.getElementById("output_form").submit();
 }

@@ -12,6 +12,8 @@ use App\Pitcher;
 
 use App\Fielder;
 
+use App\Permission;
+
 use App\Http\Requests\AdminRequest;
 
 use App\Http\Requests\SearchRequest;
@@ -20,7 +22,12 @@ use App\Http\Requests\PicherRequest;
 
 use Illuminate\Support\Facades\Auth;
 
-use App\Permission;
+use App\Lib;
+
+use Csv;
+
+use DB;
+
 
 
 
@@ -308,36 +315,38 @@ class AdminBaseballController extends Controller
     }
     
     //csv出力
-    public function getCsv(SearchRequest $request)
+    public function getOutputcsv(SearchRequest $request)
     {
-        $query = Player::query();
+        //$query = Player::query();
         
-        if(!empty($request->name)){
-            $query->where('name', '=', $request->name);
-        }
-        if(!empty($request->number)){
-            $query->where('number', '=', $request->number);
-        }
-        if(!empty($club)){
-            $query->where('club', '=', $request->club);
-        }
-        $playerInfo = $query->get(['name', 'number', 'club', 'position'])->toArray();
         
-        $csvHeader = ['登録選手名', '背番号', '所属チーム', 'ポジション'];
+        //$playerInfo = $query->get(['name', 'number', 'club', 'position'])->toArray();
+        $name   = $request->name;
+        $club   = $request->club;
+        $number = $request->number;
+        
+        $playerInfo = DB::table('players')
+                        ->select('players.name', 'players.number', 'players.club', 'players.position', 'pitchers.speed', 
+                                'pitchers.control', 'pitchers.stamina', 'pitchers.breaking_ball', 'fielders.meet', 'fielders.dandou', 'fielders.power', 
+                                'fielders.run', 'fielders.shoulder', 'fielders.defense', 'fielders.catch'
+                        )
+                        ->leftjoin('pitchers', 'players.id', '=', 'pitchers.players_id')
+                        ->leftjoin('fielders', 'players.id', '=', 'fielders.players_id')
+                        ->when($name, function($query) use ($name){
+                            return $query->where('name', '=', $name);
+                        })
+                        ->when($number, function($query) use ($number){
+                            return $query->where('number', '=', $number);
+                        })
+                        ->when($club, function($query) use ($club){
+                            return $query->where('club', '=', $club);
+                        })
+                        ->get();
 
-        array_unshift($playerInfo, $csvHeader);
-        $stream = fopen('php://temp', 'r+b');
-        foreach($playerInfo as $value){
-            fputcsv($stream, $value);
-        }
-        rewind($stream);
-        $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
-        $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
-        $headers = array(
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="users.csv"',
-        );
+
         
-        return \Response::make($csv, 200, $headers);
+        $playerInfo = json_decode(json_encode($playerInfo), true);
+                          
+        return Csv::outputCsv($playerInfo);
     }
 }

@@ -156,6 +156,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        
+        //自作
+        App\Providers\CsvProvider::class,
 
     ],
 
@@ -202,6 +205,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        
+        //自作
+        'Csv' => App\Facades\Csv::class,
 
     ],
 
