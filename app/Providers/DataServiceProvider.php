@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-//use App\Lib\CsvDetail;
-
 use Illuminate\Support\ServiceProvider;
 
-class CsvProvider extends ServiceProvider
+class DataServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -25,6 +23,6 @@ class CsvProvider extends ServiceProvider
      */
     public function register()
     {
-        app()->singleton('csv', 'App\Lib\CSV');
+        app()->singleton('data', 'App\Lib\Data');
     }
 }

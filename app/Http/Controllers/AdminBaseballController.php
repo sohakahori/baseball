@@ -22,11 +22,13 @@ use App\Http\Requests\PicherRequest;
 
 use Illuminate\Support\Facades\Auth;
 
-use App\Lib;
-
 use Csv;
 
 use DB;
+
+use Data;
+
+//use App\Lib\Data;
 
 
 
@@ -324,27 +326,8 @@ class AdminBaseballController extends Controller
         $name   = $request->name;
         $club   = $request->club;
         $number = $request->number;
-        
-        $playerInfo = DB::table('players')
-                        ->select('players.name', 'players.number', 'players.club', 'players.position', 'pitchers.speed', 
-                                'pitchers.control', 'pitchers.stamina', 'pitchers.breaking_ball', 'fielders.meet', 'fielders.dandou', 'fielders.power', 
-                                'fielders.run', 'fielders.shoulder', 'fielders.defense', 'fielders.catch'
-                        )
-                        ->leftjoin('pitchers', 'players.id', '=', 'pitchers.players_id')
-                        ->leftjoin('fielders', 'players.id', '=', 'fielders.players_id')
-                        ->when($name, function($query) use ($name){
-                            return $query->where('name', '=', $name);
-                        })
-                        ->when($number, function($query) use ($number){
-                            return $query->where('number', '=', $number);
-                        })
-                        ->when($club, function($query) use ($club){
-                            return $query->where('club', '=', $club);
-                        })
-                        ->get();
-
-
-        
+    
+        $playerInfo = Data::getCsvData($name, $number, $club);
         $playerInfo = json_decode(json_encode($playerInfo), true);
                           
         return Csv::outputCsv($playerInfo);

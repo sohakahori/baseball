@@ -159,6 +159,8 @@ return [
         
         //自作
         App\Providers\CsvProvider::class,
+        App\Providers\DataServiceProvider::class,
+        
 
     ],
 
@@ -208,6 +210,7 @@ return [
         
         //自作
         'Csv' => App\Facades\Csv::class,
+        'Data' => App\Facades\DataFacade::class,
 
     ],
 
